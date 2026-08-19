@@ -12,7 +12,7 @@ import {
 } from "@react-doctor/core";
 
 const FIXTURES_DIRECTORY = path.resolve(import.meta.dirname, "fixtures");
-const VALID_FRAMEWORKS = ["nextjs", "vite", "cra", "remix", "gatsby", "unknown"];
+const VALID_FRAMEWORKS = ["nextjs", "vite", "cra", "remix", "gatsby", "vue", "nuxt", "unknown"];
 
 interface ReactCompilerDetectionCase {
   readonly name: string;

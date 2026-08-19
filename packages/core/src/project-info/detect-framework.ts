@@ -7,6 +7,8 @@ const FRAMEWORK_PACKAGES: Record<string, Framework> = {
   gatsby: "gatsby",
   astro: "astro",
   "@astrojs/react": "astro",
+  nuxt: "nuxt",
+  nuxt3: "nuxt",
   vite: "vite",
   "react-scripts": "cra",
   expo: "expo",
@@ -25,6 +27,8 @@ const FRAMEWORK_DISPLAY_NAMES: Record<Framework, string> = {
   expo: "Expo",
   "react-native": "React Native",
   preact: "Preact",
+  vue: "Vue",
+  nuxt: "Nuxt",
   unknown: "React",
 };
 
@@ -40,11 +44,18 @@ export const formatFrameworkName = (framework: Framework): string =>
 // (see `discover-project.ts`) so Preact-bucket rules activate without
 // overwriting the framework classification.
 export const detectFramework = (dependencies: Record<string, string>): Framework => {
+  const hasVueRuntime = Boolean(dependencies.vue || dependencies.nuxt || dependencies.nuxt3);
+  const hasReactPackage = Boolean(dependencies.react);
+
   for (const [packageName, frameworkName] of Object.entries(FRAMEWORK_PACKAGES)) {
-    if (dependencies[packageName]) {
-      return frameworkName;
+    if (!dependencies[packageName]) continue;
+    if (frameworkName === "vite" && hasVueRuntime && !hasReactPackage && !dependencies.preact) {
+      return dependencies.nuxt || dependencies.nuxt3 ? "nuxt" : "vue";
     }
+    return frameworkName;
   }
+  if (dependencies.nuxt || dependencies.nuxt3) return "nuxt";
+  if (hasVueRuntime && !hasReactPackage) return "vue";
   if (dependencies.preact && !dependencies.react) {
     return "preact";
   }

@@ -5,7 +5,7 @@
 // SECRET_PATTERNS in `./security.ts`.
 
 export const TEXT_FILE_PATTERN =
-  /\.(?:[cm]?[jt]sx?|json|jsonc|map|html?|mdx?|ya?ml|toml|sql|rules|env|txt|log|svg|xml|pem|key|crt|cert|pub|py|php)$/i;
+  /\.(?:[cm]?[jt]sx?|vue|json|jsonc|map|html?|mdx?|ya?ml|toml|sql|rules|env|txt|log|svg|xml|pem|key|crt|cert|pub|py|php)$/i;
 
 export const DOTENV_FILE_PATTERN = /(?:^|\/)\.env(?:\.|$)/;
 

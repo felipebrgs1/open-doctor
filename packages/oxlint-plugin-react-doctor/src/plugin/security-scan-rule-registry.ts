@@ -41,6 +41,9 @@ import { tenantStaticProxyRisk } from "./rules/security-scan/tenant-static-proxy
 import { unsafeJsonInHtml } from "./rules/security-scan/unsafe-json-in-html.js";
 import { untrustedRedirectFollowing } from "./rules/security-scan/untrusted-redirect-following.js";
 import { urlPrefilledPrivilegedAction } from "./rules/security-scan/url-prefilled-privileged-action.js";
+import { vueNoMutatingProps } from "./rules/vue/vue-no-mutating-props.js";
+import { vueNoVHtml } from "./rules/vue/vue-no-v-html.js";
+import { vueVForRequiresKey } from "./rules/vue/vue-v-for-requires-key.js";
 import { webhookSignatureRisk } from "./rules/security-scan/webhook-signature-risk.js";
 
 export const reactDoctorScanRules = [
@@ -534,6 +537,42 @@ export const reactDoctorScanRules = [
       framework: "global",
       category: "Security",
       tags: [...new Set(["security-scan", ...(urlPrefilledPrivilegedAction.tags ?? [])])],
+    },
+  },
+  {
+    key: "react-doctor/vue-no-mutating-props",
+    id: "vue-no-mutating-props",
+    source: "react-doctor",
+    originallyExternal: false,
+    rule: {
+      ...vueNoMutatingProps,
+      framework: "vue",
+      category: "Bugs",
+      tags: [...new Set(["vue", ...(vueNoMutatingProps.tags ?? [])])],
+    },
+  },
+  {
+    key: "react-doctor/vue-no-v-html",
+    id: "vue-no-v-html",
+    source: "react-doctor",
+    originallyExternal: false,
+    rule: {
+      ...vueNoVHtml,
+      framework: "vue",
+      category: "Security",
+      tags: [...new Set(["vue", ...(vueNoVHtml.tags ?? [])])],
+    },
+  },
+  {
+    key: "react-doctor/vue-v-for-requires-key",
+    id: "vue-v-for-requires-key",
+    source: "react-doctor",
+    originallyExternal: false,
+    rule: {
+      ...vueVForRequiresKey,
+      framework: "vue",
+      category: "Bugs",
+      tags: [...new Set(["vue", ...(vueVForRequiresKey.tags ?? [])])],
     },
   },
   {

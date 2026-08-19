@@ -14925,6 +14925,57 @@
     }
   },
   {
+    "key": "react-doctor/vue-no-mutating-props",
+    "id": "vue-no-mutating-props",
+    "source": "react-doctor",
+    "originallyExternal": false,
+    "rule": {
+      "id": "vue-no-mutating-props",
+      "title": "Props are mutated",
+      "severity": "error",
+      "recommendation": "Do not assign to `props`. Emit an event or use a local copy so data still flows from parent to child.",
+      "category": "Bugs",
+      "framework": "vue",
+      "requires": ["vue"],
+      "tags": ["vue"],
+      "isScanRule": true
+    }
+  },
+  {
+    "key": "react-doctor/vue-no-v-html",
+    "id": "vue-no-v-html",
+    "source": "react-doctor",
+    "originallyExternal": false,
+    "rule": {
+      "id": "vue-no-v-html",
+      "title": "v-html renders unsanitized markup",
+      "severity": "warn",
+      "recommendation": "Avoid `v-html` for untrusted input. Render text, or sanitize the HTML before binding it.",
+      "category": "Security",
+      "framework": "vue",
+      "requires": ["vue"],
+      "tags": ["vue"],
+      "isScanRule": true
+    }
+  },
+  {
+    "key": "react-doctor/vue-v-for-requires-key",
+    "id": "vue-v-for-requires-key",
+    "source": "react-doctor",
+    "originallyExternal": false,
+    "rule": {
+      "id": "vue-v-for-requires-key",
+      "title": "v-for is missing a key",
+      "severity": "warn",
+      "recommendation": "Add `:key` on the same element as `v-for` so Vue can reuse the correct DOM nodes when the list changes.",
+      "category": "Bugs",
+      "framework": "vue",
+      "requires": ["vue"],
+      "tags": ["vue"],
+      "isScanRule": true
+    }
+  },
+  {
     "key": "react-doctor/waapi-animation-in-render",
     "id": "waapi-animation-in-render",
     "source": "react-doctor",

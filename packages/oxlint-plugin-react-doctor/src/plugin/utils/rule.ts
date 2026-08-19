@@ -17,7 +17,9 @@ export type RuleFramework =
   | "react-native"
   | "tanstack-start"
   | "tanstack-query"
-  | "preact";
+  | "preact"
+  | "vue"
+  | "nuxt";
 
 export interface Rule {
   // Public-facing rule identifier — what users put in their oxlint config

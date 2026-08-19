@@ -145,6 +145,10 @@ const discoverProjectWithoutPackageJson = (
     hasSsrDependency: false,
     preactVersion: null,
     preactMajorVersion: null,
+    vueVersion: null,
+    vueMajorVersion: null,
+    nuxtVersion: null,
+    nuxtMajorVersion: null,
     hasReactNativeWorkspace: false,
     nextjsVersion: null,
     nextjsMajorVersion: null,
@@ -345,6 +349,18 @@ export const discoverProject = (
           version: workspaceFacts.reactRouter.version,
         });
   const preactVersion = getPreactVersion(packageJson);
+  const vueVersion = resolveCatalogBackedDependencyVersion({
+    rootDirectory: directory,
+    rootPackageJson: packageJson,
+    packageName: "vue",
+    version: workspaceFacts.vue.version,
+  });
+  const nuxtVersion = resolveCatalogBackedDependencyVersion({
+    rootDirectory: directory,
+    rootPackageJson: packageJson,
+    packageName: "nuxt",
+    version: workspaceFacts.nuxt.version,
+  });
   const remotionVersion = workspaceFacts.remotionVersion;
   const tanstackQueryVersion =
     getTanStackQueryVersion(packageJson) ?? workspaceFacts.tanstackQueryVersion;
@@ -415,6 +431,10 @@ export const discoverProject = (
     hasSsrDependency: workspaceFacts.hasSsrDependency,
     preactVersion,
     preactMajorVersion: parseReactMajor(preactVersion),
+    vueVersion,
+    vueMajorVersion: vueVersion === null ? null : getLowestDependencyMajor(vueVersion),
+    nuxtVersion,
+    nuxtMajorVersion: nuxtVersion === null ? null : getLowestDependencyMajor(nuxtVersion),
     hasReactNativeWorkspace,
     nextjsVersion,
     nextjsMajorVersion: nextjsVersion === null ? null : getLowestDependencyMajor(nextjsVersion),

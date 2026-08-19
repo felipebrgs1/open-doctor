@@ -68,6 +68,9 @@ export const LATEST_KNOWN_PREACT_MAJOR = 20;
 // for. Preact X (10) is the modern baseline.
 export const EARLIEST_GATED_PREACT_MAJOR = 10;
 
+export const EARLIEST_GATED_VUE_MAJOR = 3;
+export const LATEST_KNOWN_VUE_MAJOR = 3;
+
 // Valtio shipped the useSnapshot render contract in v1. The upper bound
 // follows the same untrusted-version clamp as React and Preact.
 export const EARLIEST_GATED_VALTIO_MAJOR = 1;

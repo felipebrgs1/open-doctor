@@ -39,6 +39,12 @@ describe("isAnalyzableProject", () => {
     expect(isAnalyzableProject({ ...baseProject, preactVersion: "^10.22.0" })).toBe(true);
   });
 
+  it("is analyzable for a Vue project with no react package", () => {
+    expect(isAnalyzableProject({ ...baseProject, framework: "vue", vueVersion: "^3.5.0" })).toBe(
+      true,
+    );
+  });
+
   it("is analyzable for a React framework with no direct react package", () => {
     expect(isAnalyzableProject({ ...baseProject, framework: "expo" })).toBe(true);
   });

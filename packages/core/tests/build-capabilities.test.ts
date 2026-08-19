@@ -78,6 +78,8 @@ describe("buildCapabilities", () => {
       "react-native",
       "tanstack-start",
       "preact",
+      "vue",
+      "nuxt",
     ];
     for (const framework of supportedFrameworks) {
       expect(hasSupportedFrameworkOrLibrary({ ...plainProject, framework })).toBe(true);
@@ -99,6 +101,8 @@ describe("buildCapabilities", () => {
       { ...plainProject, hasThree: true },
       { ...plainProject, hasReactThreeFiber: true },
       { ...plainProject, preactVersion: "10.0.0", preactMajorVersion: 10 },
+      { ...plainProject, vueVersion: "3.5.0", vueMajorVersion: 3 },
+      { ...plainProject, nuxtVersion: "3.14.0", nuxtMajorVersion: 3 },
       { ...plainProject, reactRouterVersion: "7.0.0" },
       { ...plainProject, expoVersion: "54.0.0" },
       { ...plainProject, hasReactNativeWorkspace: true },
@@ -107,6 +111,38 @@ describe("buildCapabilities", () => {
     for (const project of supportedLibraryProjects) {
       expect(hasSupportedFrameworkOrLibrary(project)).toBe(true);
     }
+  });
+
+  it("emits vue and vue:3 for a Vue project without React", () => {
+    const capabilities = buildCapabilities({
+      ...baseProject,
+      framework: "vue",
+      reactVersion: null,
+      reactMajorVersion: null,
+      vueVersion: "^3.5.13",
+      vueMajorVersion: 3,
+    });
+    expect(capabilities.has("vue")).toBe(true);
+    expect(capabilities.has("vue:3")).toBe(true);
+    expect(capabilities.has("react")).toBe(false);
+    expect(capabilities.has("client-only")).toBe(true);
+  });
+
+  it("emits nuxt and ssr for a Nuxt project", () => {
+    const capabilities = buildCapabilities({
+      ...baseProject,
+      framework: "nuxt",
+      reactVersion: null,
+      reactMajorVersion: null,
+      vueVersion: "^3.5.13",
+      vueMajorVersion: 3,
+      nuxtVersion: "^3.14.0",
+      nuxtMajorVersion: 3,
+    });
+    expect(capabilities.has("nuxt")).toBe(true);
+    expect(capabilities.has("vue")).toBe(true);
+    expect(capabilities.has("ssr")).toBe(true);
+    expect(capabilities.has("client-only")).toBe(false);
   });
 
   it("treats React-backed frameworks as runtime evidence without a direct React version", () => {

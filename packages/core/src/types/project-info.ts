@@ -99,6 +99,19 @@ export interface ProjectInfo {
   /** Parsed major from `preactVersion`, or `null` when absent/unparseable. Mirrors `reactMajorVersion`. */
   preactMajorVersion: number | null;
   /**
+   * Declared `vue` version spec, or `null` when Vue is not a dependency.
+   * Optional so existing `ProjectInfo` fixtures stay source-compatible.
+   * Drives the `vue` capability independently of `framework` so an Astro
+   * island project still activates Vue-bucket rules.
+   */
+  vueVersion?: string | null;
+  /** Parsed major from `vueVersion`, or `null` when absent/unparseable. */
+  vueMajorVersion?: number | null;
+  /** Declared `nuxt` / `nuxt3` version spec, or `null` when Nuxt is absent. */
+  nuxtVersion?: string | null;
+  /** Parsed major from `nuxtVersion`, or `null` when absent/unparseable. */
+  nuxtMajorVersion?: number | null;
+  /**
    * `true` when the project (or any of its workspace packages) declares
    * React Native or Expo as a dependency. Enables the `react-native`
    * capability — and therefore every `rn-*` rule — even on web-rooted

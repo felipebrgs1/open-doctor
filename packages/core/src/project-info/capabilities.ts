@@ -10,6 +10,7 @@ import {
   EARLIEST_GATED_STYLED_COMPONENTS_MAJOR,
   EARLIEST_GATED_THREE_RELEASE,
   EARLIEST_GATED_VALTIO_MAJOR,
+  EARLIEST_GATED_VUE_MAJOR,
   EARLIEST_GATED_ZUSTAND_MAJOR,
   EXPO_PLATFORM_TREE_SHAKING_MINIMUM_SDK_VERSION,
   LATEST_KNOWN_PREACT_MAJOR,
@@ -18,6 +19,7 @@ import {
   LATEST_KNOWN_REMOTION_MAJOR,
   LATEST_KNOWN_THREE_RELEASE,
   LATEST_KNOWN_VALTIO_MAJOR,
+  LATEST_KNOWN_VUE_MAJOR,
   LATEST_SUPPORTED_MOBX_MAJOR,
   LATEST_SUPPORTED_ZUSTAND_MAJOR,
   MOBX_ABORT_SIGNAL_MAJOR,
@@ -30,6 +32,7 @@ import {
   REANIMATED_WORKLETS_MINIMUM_MAJOR_VERSION,
 } from "../constants.js";
 import { hasReactRuntime } from "../utils/has-react-runtime.js";
+import { hasVueRuntime } from "../utils/has-vue-runtime.js";
 import {
   getLowestDependencyMajor,
   isMajorMinorAtLeast,
@@ -53,6 +56,7 @@ const CLIENT_ONLY_FRAMEWORKS: ReadonlySet<Framework> = new Set([
   "gatsby",
   "react-native",
   "expo",
+  "vue",
 ]);
 
 const SSR_FRAMEWORKS: ReadonlySet<Framework> = new Set([
@@ -60,11 +64,12 @@ const SSR_FRAMEWORKS: ReadonlySet<Framework> = new Set([
   "remix",
   "gatsby",
   "tanstack-start",
+  "nuxt",
 ]);
 
 const addVersionCapabilityLadder = (
   capabilities: Set<Capability>,
-  name: "react" | "remotion" | "preact" | "r3f" | "three" | "valtio" | "mobx" | "zustand",
+  name: "react" | "remotion" | "preact" | "r3f" | "three" | "valtio" | "mobx" | "zustand" | "vue",
   detectedVersion: number | null,
   earliest: number,
   latest: number,
@@ -348,6 +353,19 @@ export const buildCapabilities = (project: ProjectInfo): ReadonlySet<Capability>
   // can't be running through `preact/compat` aliasing.
   if (project.preactVersion !== null && project.reactVersion === null) {
     capabilities.add("pure-preact");
+  }
+  if (hasVueRuntime(project)) {
+    capabilities.add("vue");
+    addVersionCapabilityLadder(
+      capabilities,
+      "vue",
+      project.vueMajorVersion ?? null,
+      EARLIEST_GATED_VUE_MAJOR,
+      LATEST_KNOWN_VUE_MAJOR,
+    );
+  }
+  if (project.framework === "nuxt" || project.nuxtVersion != null) {
+    capabilities.add("nuxt");
   }
 
   return capabilities;

@@ -19,6 +19,8 @@ export const FRAMEWORK_TOKENS = [
   "react-native",
   "tanstack-start",
   "preact",
+  "vue",
+  "nuxt",
   "unknown",
 ] as const;
 
@@ -93,6 +95,7 @@ export type Capability =
   // core's constants (`EARLIEST_GATED_*` / `LATEST_*`).
   | `react:${number}`
   | `preact:${number}`
+  | `vue:${number}`
   | `remotion:${number}`
   | `valtio:${number}`
   | `mobx:${number}`

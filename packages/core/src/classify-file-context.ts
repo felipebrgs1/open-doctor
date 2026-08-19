@@ -13,7 +13,7 @@ import type { DiagnosticFileContext } from "./types/index.js";
 // suffix patterns share one extension grammar so they can never drift
 // apart — `isTestFilePath` is derived from this classifier, making
 // "the label and the suppression always agree" structural.
-const SCRIPT_EXTENSION_FRAGMENT = "[cm]?[jt]sx?";
+const SCRIPT_EXTENSION_FRAGMENT = "(?:[cm]?[jt]sx?|vue)";
 const STORY_FILE_SUFFIX_PATTERN = new RegExp(
   `\\.(?:stories|story)\\.(?:${SCRIPT_EXTENSION_FRAGMENT})$`,
 );

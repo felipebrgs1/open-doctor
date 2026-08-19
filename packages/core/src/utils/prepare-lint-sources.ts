@@ -2,11 +2,13 @@ import * as fs from "node:fs";
 import * as path from "node:path";
 import { convertToTSX } from "@astrojs/compiler/sync";
 import { TraceMap } from "@jridgewell/trace-mapping";
+import { extractVueScriptLintSource } from "oxlint-plugin-react-doctor/core";
 import { HTML_FILE_PATTERN } from "../constants.js";
 import { containsThreeModuleImport } from "./contains-three-module-import.js";
 import { prepareHtmlScriptSource } from "./prepare-html-script-source.js";
 
 const ASTRO_FILE_PATTERN = /\.astro$/;
+const VUE_FILE_PATTERN = /\.vue$/i;
 
 export interface PreparedSourceMap {
   readonly traceMap: TraceMap;
@@ -33,12 +35,18 @@ export const prepareLintSources = (
   const sizeByLintPath = new Map<string, number>();
   const htmlSourcesDirectory = path.join(temporaryDirectory, "html-sources");
   const astroSourcesDirectory = path.join(temporaryDirectory, "astro-sources");
+  const vueSourcesDirectory = path.join(temporaryDirectory, "vue-sources");
   let htmlFileIndex = 0;
   let astroFileIndex = 0;
+  let vueFileIndex = 0;
   let hasThreeModuleImport = false;
 
   for (const candidateFile of candidateFiles) {
-    if (!HTML_FILE_PATTERN.test(candidateFile) && !ASTRO_FILE_PATTERN.test(candidateFile)) {
+    if (
+      !HTML_FILE_PATTERN.test(candidateFile) &&
+      !ASTRO_FILE_PATTERN.test(candidateFile) &&
+      !VUE_FILE_PATTERN.test(candidateFile)
+    ) {
       lintFiles.push(candidateFile);
       continue;
     }
@@ -68,6 +76,18 @@ export const prepareLintSources = (
       });
       sizeByLintPath.set(lintPath, sourceBuffer.length);
       astroFileIndex++;
+      continue;
+    }
+    if (VUE_FILE_PATTERN.test(candidateFile)) {
+      const { lintSource, hasJsx } = extractVueScriptLintSource(sourceBuffer.toString("utf8"));
+      if (vueFileIndex === 0) fs.mkdirSync(vueSourcesDirectory, { recursive: true });
+      const lintPath = path.join(vueSourcesDirectory, `${vueFileIndex}.${hasJsx ? "tsx" : "ts"}`);
+      const generatedBuffer = Buffer.from(lintSource);
+      fs.writeFileSync(lintPath, generatedBuffer);
+      lintFiles.push(lintPath);
+      sourcePathByLintPath.set(path.resolve(lintPath), candidateFile);
+      sizeByLintPath.set(lintPath, sourceBuffer.length);
+      vueFileIndex++;
       continue;
     }
     // HACK: Oxlint's Astro frontend visits fallback text inside `script[src]`,

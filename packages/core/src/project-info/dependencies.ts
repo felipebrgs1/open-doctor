@@ -379,12 +379,21 @@ export const hasReactDependency = (packageJson: PackageJson): boolean => {
 export const hasSupportedProjectDependency = (packageJson: PackageJson): boolean =>
   hasReactDependency(packageJson) ||
   getDependencySpec(packageJson, "remotion") !== null ||
+  getDependencySpec(packageJson, "vue") !== null ||
+  getDependencySpec(packageJson, "nuxt") !== null ||
+  getDependencySpec(packageJson, "nuxt3") !== null ||
   THREE_DEPENDENCY_NAMES.some(
     (packageName) => getDependencySpec(packageJson, packageName) !== null,
   );
 
 export const getPreactVersion = (packageJson: PackageJson): string | null =>
   getDependencySpec(packageJson, "preact");
+
+export const getVueVersion = (packageJson: PackageJson): string | null =>
+  getDependencySpec(packageJson, "vue");
+
+export const getNuxtVersion = (packageJson: PackageJson): string | null =>
+  getDependencySpec(packageJson, "nuxt") ?? getDependencySpec(packageJson, "nuxt3");
 
 interface ResolveCatalogBackedDependencyVersionOptions {
   rootDirectory: string;

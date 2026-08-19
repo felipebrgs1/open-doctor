@@ -120,13 +120,21 @@ describe("rule registry", () => {
     expect(taggedIds).toEqual([...SECURITY_POSTURE_RULE_IDS]);
   });
 
-  it("gives every security-scan rule a scan function and no other rule a scan field", () => {
+  it("gives every security-scan rule a scan function", () => {
     for (const [ruleId, rule] of Object.entries(ruleRegistry)) {
-      if ((rule.tags ?? []).includes("security-scan")) {
-        expect(typeof rule.scan, `${ruleId} should carry a scan`).toBe("function");
-      } else {
-        expect(rule.scan, `${ruleId} should not carry a scan`).toBeUndefined();
-      }
+      if (!(rule.tags ?? []).includes("security-scan")) continue;
+      expect(typeof rule.scan, `${ruleId} should carry a scan`).toBe("function");
+    }
+  });
+
+  it("only allows scan execution on security-scan, vue, and nuxt rules", () => {
+    const scanAllowedTags = new Set(["security-scan", "vue", "nuxt"]);
+    for (const [ruleId, rule] of Object.entries(ruleRegistry)) {
+      if (typeof rule.scan !== "function") continue;
+      expect(
+        (rule.tags ?? []).some((tag) => scanAllowedTags.has(tag)),
+        `${ruleId} has scan but no security-scan/vue/nuxt tag`,
+      ).toBe(true);
     }
   });
 

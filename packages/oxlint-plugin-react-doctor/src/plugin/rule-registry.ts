@@ -902,6 +902,9 @@ import { useLazyMotion } from "./rules/bundle-size/use-lazy-motion.js";
 import { valtioNoProxyReadInRender } from "./rules/valtio/valtio-no-proxy-read-in-render.js";
 import { valtioNoSnapshotInCallback } from "./rules/valtio/valtio-no-snapshot-in-callback.js";
 import { voidDomElementsNoChildren } from "./rules/react-builtins/void-dom-elements-no-children.js";
+import { vueNoMutatingProps } from "./rules/vue/vue-no-mutating-props.js";
+import { vueNoVHtml } from "./rules/vue/vue-no-v-html.js";
+import { vueVForRequiresKey } from "./rules/vue/vue-v-for-requires-key.js";
 import { waapiAnimationInRender } from "./rules/correctness/waapi-animation-in-render.js";
 import { webAnimationOffsetsValid } from "./rules/correctness/web-animation-offsets-valid.js";
 import { webglNoSyncReadbackInAnimationLoop } from "./rules/webgl/webgl-no-sync-readback-in-animation-loop.js";
@@ -12343,6 +12346,42 @@ export const reactDoctorRules = [
       framework: "global",
       category: "Bugs",
       requires: [...new Set<Capability>(["react", ...(voidDomElementsNoChildren.requires ?? [])])],
+    },
+  },
+  {
+    key: "react-doctor/vue-no-mutating-props",
+    id: "vue-no-mutating-props",
+    source: "react-doctor",
+    originallyExternal: false,
+    rule: {
+      ...vueNoMutatingProps,
+      framework: "vue",
+      category: "Bugs",
+      tags: [...new Set(["vue", ...(vueNoMutatingProps.tags ?? [])])],
+    },
+  },
+  {
+    key: "react-doctor/vue-no-v-html",
+    id: "vue-no-v-html",
+    source: "react-doctor",
+    originallyExternal: false,
+    rule: {
+      ...vueNoVHtml,
+      framework: "vue",
+      category: "Security",
+      tags: [...new Set(["vue", ...(vueNoVHtml.tags ?? [])])],
+    },
+  },
+  {
+    key: "react-doctor/vue-v-for-requires-key",
+    id: "vue-v-for-requires-key",
+    source: "react-doctor",
+    originallyExternal: false,
+    rule: {
+      ...vueVForRequiresKey,
+      framework: "vue",
+      category: "Bugs",
+      tags: [...new Set(["vue", ...(vueVForRequiresKey.tags ?? [])])],
     },
   },
   {

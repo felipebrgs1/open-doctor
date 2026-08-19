@@ -2255,6 +2255,18 @@ export const livenessFixtures: Readonly<Record<string, LivenessFixture>> = {
   "valtio-no-snapshot-in-callback": {
     code: 'import { useSnapshot } from "valtio"; function Counter() { const snap = useSnapshot(state); return <button onClick={() => console.log(snap.count)}>read</button>; }',
   },
+  "vue-no-mutating-props": {
+    code: "<script setup>\nconst props = defineProps({ count: Number })\nprops.count = 1\n</script>\n",
+    filePath: "src/Field.vue",
+  },
+  "vue-no-v-html": {
+    code: '<template>\n  <div v-html="markup" />\n</template>\n',
+    filePath: "src/Preview.vue",
+  },
+  "vue-v-for-requires-key": {
+    code: '<template>\n  <li v-for="item in items">{{ item }}</li>\n</template>\n',
+    filePath: "src/List.vue",
+  },
   "void-dom-elements-no-children": {
     code: "const a = <img>hi</img>;",
   },

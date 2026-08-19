@@ -38,6 +38,8 @@ const BUCKET_TO_FRAMEWORK = {
   "react-native": "react-native",
   "tanstack-query": "tanstack-query",
   "tanstack-start": "tanstack-start",
+  vue: "vue",
+  nuxt: "nuxt",
 };
 
 // Bucket directories whose rules fundamentally need a React (or Preact)
@@ -104,6 +106,8 @@ const BUCKET_TO_AUTO_TAGS = {
   ink: ["ink"],
   project: ["project-analysis"],
   "react-native": ["react-native"],
+  vue: ["vue"],
+  nuxt: ["nuxt"],
   r3f: ["r3f", "webgl"],
   webgl: ["webgl"],
   "security-scan": ["security-scan"],
@@ -202,6 +206,8 @@ const CATEGORY_BUCKET = {
   "TanStack Query": "Bugs",
   "TanStack Start": "Bugs",
   Preact: "Bugs",
+  Vue: "Bugs",
+  Nuxt: "Bugs",
   Architecture: "Maintainability",
   Design: "Maintainability",
   Other: "Bugs",
@@ -225,6 +231,8 @@ const BUCKET_TO_DEFAULT_CATEGORY = {
   nextjs: "Next.js",
   performance: "Performance",
   preact: "Preact",
+  vue: "Vue",
+  nuxt: "Nuxt",
   project: "Architecture",
   "react-builtins": "Correctness",
   "react-native": "React Native",

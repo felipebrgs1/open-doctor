@@ -101,6 +101,8 @@ export interface WorkspaceFacts {
   // package, in any of the four dependency sections.
   expo: DependencyFact;
   next: DependencyFact;
+  vue: DependencyFact;
+  nuxt: DependencyFact;
   reactRouter: ReactRouterDependencyFact;
   shopifyFlashList: DependencyFact;
   valtioVersion: string | null;
@@ -321,6 +323,14 @@ const evaluateManifestFacts = (
     const spec = getDependencySpec(packageJson, "next");
     if (spec !== null) facts.next = { version: spec, sourceDirectory: directory };
   }
+  if (facts.vue.version === null) {
+    const spec = getDependencySpec(packageJson, "vue");
+    if (spec !== null) facts.vue = { version: spec, sourceDirectory: directory };
+  }
+  if (facts.nuxt.version === null) {
+    const spec = getDependencySpec(packageJson, "nuxt") ?? getDependencySpec(packageJson, "nuxt3");
+    if (spec !== null) facts.nuxt = { version: spec, sourceDirectory: directory };
+  }
   for (const packageName of REACT_ROUTER_DEPENDENCY_NAMES) {
     const spec = getDependencySpec(packageJson, packageName);
     const resolvedSpec = resolveCatalogBackedDependencyVersion({
@@ -530,6 +540,8 @@ export const collectWorkspaceFacts = (
     framework: "unknown",
     expo: { version: null, sourceDirectory: null },
     next: { version: null, sourceDirectory: null },
+    vue: { version: null, sourceDirectory: null },
+    nuxt: { version: null, sourceDirectory: null },
     reactRouter: { version: null, sourceDirectory: null, packageName: null },
     shopifyFlashList: { version: null, sourceDirectory: null },
     valtioVersion: null,

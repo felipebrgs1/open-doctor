@@ -43,6 +43,7 @@ export {
   isReactNativeDependencyName,
 } from "./react-native-dependency-names.js";
 
+export { extractVueScriptLintSource } from "./plugin/utils/extract-vue-script-lint-source.js";
 export { FRAMEWORK_TOKENS } from "./plugin/utils/capability.js";
 export type { Capability, CapabilityQuery, FrameworkToken } from "./plugin/utils/capability.js";
 export type { CoreRuleMetadata } from "./plugin/utils/core-rule-metadata.js";
